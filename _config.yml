@@ -1,7 +1,9 @@
 title: Celestino Advogados
 description: Advocacia em Direito de Família e Direito do Passageiro Aéreo.
-url: https://celestinoadvogados.com.br
-baseurl: ""
+# PROVISÓRIO — enquanto o site é revisado no endereço do GitHub Pages.
+# No dia da publicação: url vira https://celestinoadvogados.com.br e baseurl volta a "".
+url: https://cafe01.github.io
+baseurl: "/celestinoadvogados.site"
 lang: pt-BR
 
 permalink: /artigos/:title/
