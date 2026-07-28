@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Celestino Advogados — institucional e artigos.
+   Mesmos tokens de marca da landing de aviação (/voo/), chrome diferente:
+   lá a página converte e não tem saída; aqui ela informa e navega.
+   ========================================================================== */
+
+:root{
+  --brand-900:#2a1b11;
+  --brand-800:#3a2617;
+  --brand-700:#4e341f;
+  --brand-600:#69472c;
+  --brand-500:#8a6446;
+  --brand-100:#ead9c8;
+  --brand-050:#faf4ee;
+
+  --accent-500:#b5875d;
+  --accent-600:#96693f;
+
+  --ink:#2b1e14;
+  --ink-soft:#5b4b40;
+  --ink-faint:#8b7a6d;
+  --line:#e6dcd2;
+  --line-soft:#f1eae2;
+  --white:#fff;
+
+  --font-sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-serif:"Lora",Georgia,"Times New Roman",serif;
+
+  --wrap:68rem;
+  --prosa:38rem;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans);font-size:1.02rem;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--font-serif);line-height:1.2;color:var(--brand-900);margin:0 0 .5em}
+a{color:var(--brand-700)}
+a:hover{color:var(--accent-600)}
+img{max-width:100%;height:auto}
+
+.wrap{width:min(100% - 2.5rem,var(--wrap));margin-inline:auto}
+
+/* ---- topo ---- */
+.topo{border-bottom:1px solid var(--line);background:var(--white);position:sticky;top:0;z-index:10}
+.topo__linha{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;padding:1rem 0}
+.marca{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--brand-800);text-decoration:none;letter-spacing:.01em}
+.marca span{color:var(--accent-600)}
+.nav{display:flex;gap:1.4rem;flex-wrap:wrap}
+.nav a{font-size:.94rem;color:var(--ink-soft);text-decoration:none}
+.nav a:hover{color:var(--brand-700)}
+
+/* ---- capa ---- */
+.capa{background:var(--brand-050);border-bottom:1px solid var(--line);padding:4.5rem 0 4rem}
+.capa__titulo{font-size:clamp(1.9rem,1.4rem + 2.2vw,3rem);max-width:20ch}
+.capa__linha{max-width:52ch;color:var(--ink-soft);font-size:1.1rem}
+.botao{display:inline-block;margin-top:1.6rem;padding:.8rem 1.5rem;border-radius:.4rem;background:var(--brand-700);color:var(--white);text-decoration:none;font-weight:500}
+.botao:hover{background:var(--brand-800);color:var(--white)}
+
+/* ---- seções ---- */
+.secao{padding:3.5rem 0}
+.secao--claro{background:var(--brand-050);width:100%;padding-inline:max(1.25rem,calc((100% - var(--wrap))/2))}
+.secao__titulo{font-size:clamp(1.4rem,1.2rem + .8vw,1.9rem)}
+.secao__linha{color:var(--ink-soft);margin-top:-.2rem}
+
+.cartoes{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));margin-top:2rem}
+.cartao{border:1px solid var(--line);border-radius:.6rem;padding:1.5rem;background:var(--white)}
+.cartao h3{font-size:1.15rem}
+.cartao__quem{font-size:.86rem;color:var(--ink-faint);margin-bottom:.4rem}
+
+/* ---- listagem de artigos ---- */
+.lista{list-style:none;padding:0;margin:2rem 0 0;display:grid;gap:2rem}
+.lista__item{border-bottom:1px solid var(--line-soft);padding-bottom:1.5rem}
+.lista--curta .lista__item{border:0;padding-bottom:0}
+.lista__area{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-600);margin:0 0 .3rem}
+.lista__titulo{font-size:1.25rem;margin:0 0 .35rem}
+.lista__titulo a{text-decoration:none}
+.lista__resumo{color:var(--ink-soft);margin:0 0 .4rem;max-width:60ch}
+.lista__data{font-size:.85rem;color:var(--ink-faint);margin:0}
+.vazio{color:var(--ink-faint);font-style:italic}
+
+/* ---- artigo ---- */
+.artigo{padding:3rem 0 4rem;max-width:min(100% - 2.5rem,var(--prosa))}
+.artigo__trilha{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint)}
+.artigo__trilha a{color:var(--ink-faint)}
+.artigo__titulo{font-size:clamp(1.7rem,1.4rem + 1.4vw,2.4rem)}
+.artigo__meta{font-size:.88rem;color:var(--ink-faint);margin-top:-.3rem}
+.artigo__resumo{font-size:1.12rem;color:var(--ink-soft);border-left:3px solid var(--brand-100);padding-left:1rem;margin:1.8rem 0}
+
+.prosa{max-width:var(--prosa)}
+.prosa p,.prosa li{color:var(--ink);line-height:1.75}
+.prosa h2{font-size:1.35rem;margin-top:2.2rem}
+.prosa h3{font-size:1.12rem;margin-top:1.8rem}
+.prosa blockquote{border-left:3px solid var(--brand-100);margin:1.6rem 0;padding-left:1rem;color:var(--ink-soft)}
+
+.chamada{margin-top:3rem;padding:1.75rem;border-radius:.6rem;background:var(--brand-050);border:1px solid var(--line)}
+.chamada p{margin:0 0 1rem;font-family:var(--font-serif);font-size:1.1rem;color:var(--brand-900)}
+.chamada__botao{display:inline-block;padding:.7rem 1.3rem;border-radius:.4rem;background:var(--brand-700);color:var(--white);text-decoration:none;font-weight:500}
+.chamada__botao:hover{background:var(--brand-800);color:var(--white)}
+
+/* ---- rodapé ---- */
+.rodape{margin-top:2rem;border-top:1px solid var(--line);background:var(--brand-900);color:var(--brand-100);padding:2.5rem 0 1.75rem}
+.rodape a{color:var(--brand-100)}
+.rodape__grade{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.marca--rodape{color:var(--brand-100);font-size:1.1rem;margin:0 0 .4rem}
+.marca--rodape span{color:var(--accent-500)}
+.rodape__oab{font-size:.88rem;color:var(--brand-100);opacity:.8;margin:0}
+.rodape__nota{margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(234,217,200,.18);font-size:.8rem;opacity:.7}
+.rodape__nota p{margin:.3rem 0}

@@ -1,0 +1,72 @@
+---
+layout: base
+description: Celestino Advogados — atuação em Direito de Família e em Direito do Passageiro Aéreo.
+---
+
+<!--
+  RASCUNHO ESTRUTURAL. Todo texto entre [colchetes] espera a palavra das sócias.
+  Régua obrigatória (Provimento 205/2021 da OAB): pode nome + inscrição;
+  não pode honorários, gratuidade, promessa de resultado, valores, casos
+  concretos, "especialista", nem descrição de estrutura física.
+-->
+
+<section class="capa">
+  <div class="wrap">
+    <h1 class="capa__titulo">Advocacia para as horas em que a vida complica.</h1>
+    <p class="capa__linha">[Uma frase das sócias sobre como o escritório atende — a promessa de postura, não de resultado.]</p>
+    <a class="botao" href="#contato">Falar com o escritório</a>
+  </div>
+</section>
+
+<section class="wrap secao" id="atuacao">
+  <h2 class="secao__titulo">Áreas de atuação</h2>
+
+  <div class="cartoes">
+    <article class="cartao">
+      <h3>Direito de Família e Sucessões</h3>
+      <p>[Divórcio, guarda, pensão, inventário — descrição em uma linha por tema, na voz da Milena.]</p>
+      <p class="cartao__quem">Milena Celestino — OAB/ES [nº]</p>
+    </article>
+
+    <article class="cartao">
+      <h3>Direito do Passageiro Aéreo</h3>
+      <p>Atraso, cancelamento, embarque negado e problemas com bagagem.</p>
+      <p class="cartao__quem">Mariela Celestino — OAB/ES 14.594</p>
+      <p><a href="{{ '/voo/' | relative_url }}">Entenda como funciona &rarr;</a></p>
+    </article>
+
+    <article class="cartao">
+      <h3>[Terceira área]</h3>
+      <p>[A área nova que o Café mencionou — falta nomear.]</p>
+    </article>
+  </div>
+</section>
+
+<section class="wrap secao secao--claro" id="escritorio">
+  <h2 class="secao__titulo">O escritório</h2>
+  <p class="prosa">[A história do escritório em dois parágrafos: quando começou, quem são as duas sócias, o que orienta o atendimento. Sem descrever instalações — a régua da OAB veda.]</p>
+</section>
+
+<section class="wrap secao" id="artigos-recentes">
+  <h2 class="secao__titulo">Artigos recentes</h2>
+  {% if site.posts.size > 0 %}
+  <ul class="lista lista--curta">
+    {% for post in site.posts limit: 3 %}
+    <li class="lista__item">
+      {% if post.area %}<p class="lista__area">{{ post.area }}</p>{% endif %}
+      <h3 class="lista__titulo"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+    </li>
+    {% endfor %}
+  </ul>
+  <p><a href="{{ '/artigos/' | relative_url }}">Todos os artigos &rarr;</a></p>
+  {% else %}
+  <p class="vazio">Os primeiros textos estão sendo escritos.</p>
+  {% endif %}
+</section>
+
+<section class="wrap secao secao--claro" id="contato">
+  <h2 class="secao__titulo">Contato</h2>
+  <p><a href="https://wa.me/5527981385109">WhatsApp (27) 98138-5109</a></p>
+  <p><a href="mailto:mariela@celestinoadvogados.com.br">mariela@celestinoadvogados.com.br</a></p>
+  <p>[Endereço — verificar com as sócias o que a régua permite publicar.]</p>
+</section>
