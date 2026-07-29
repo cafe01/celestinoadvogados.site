@@ -42,8 +42,10 @@ img{max-width:100%;height:auto}
 /* ---- topo ---- */
 .topo{border-bottom:1px solid var(--line);background:var(--white);position:sticky;top:0;z-index:10}
 .topo__linha{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;padding:1rem 0}
-.marca{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--brand-800);text-decoration:none;letter-spacing:.01em}
+.marca{display:inline-block;font-family:var(--font-serif);font-size:1.2rem;font-weight:600;color:var(--brand-800);text-decoration:none;letter-spacing:.01em}
 .marca span{color:var(--accent-600)}
+.marca__logo{display:block;height:1.45rem;width:auto}
+@media (min-width:48em){.marca__logo{height:1.8rem}}
 .nav{display:flex;gap:1.4rem;flex-wrap:wrap}
 .nav a{font-size:.94rem;color:var(--ink-soft);text-decoration:none}
 .nav a:hover{color:var(--brand-700)}

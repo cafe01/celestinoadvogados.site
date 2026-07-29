@@ -126,10 +126,10 @@ ul{margin:0;padding:0}
 }
 .site-header.is-stuck{border-bottom-color:var(--line);box-shadow:var(--shadow-s)}
 .site-header .wrap{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-4);min-height:4.25rem}
-.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--ink)}
-.brand__mark{width:2.1rem;height:2.1rem;flex:none;color:var(--brand-500)}
-.brand__name{font-family:var(--font-serif);font-size:1.05rem;font-weight:600;line-height:1.15;letter-spacing:-.01em}
-.brand__oab{display:block;font-family:var(--font-sans);font-size:.7rem;font-weight:500;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase}
+.brand{display:flex;align-items:flex-end;gap:.7rem;text-decoration:none;color:var(--ink)}
+.brand__logo{display:block;height:1.45rem;width:auto;flex:none}
+.brand__oab{font-family:var(--font-sans);font-size:.7rem;font-weight:500;letter-spacing:.06em;color:var(--ink-faint);text-transform:uppercase;padding-bottom:.1rem}
+@media (min-width:48em){.brand__logo{height:1.8rem}}
 .site-header .btn{display:none}
 @media (min-width:48em){.site-header .btn{display:inline-flex}}
 
