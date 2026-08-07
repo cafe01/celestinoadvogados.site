@@ -26,9 +26,9 @@
        código — o lead chega, apenas órfão de atribuição. */
     beacon:   '',                          // https://.../b
 
-    ga4:      '',                          // G-XXXXXXXXXX      — GA4
-    googleAds: '',                         // AW-XXXXXXXXX      — Google Ads
-    adsConversao: '',                      // AW-XXXXXXXXX/abcD — rótulo da conversão whatsapp_click
+    ga4:      'G-HWMEP5756J',              // G-XXXXXXXXXX      — GA4
+    googleAds: 'AW-18370597514',           // AW-XXXXXXXXX      — Google Ads
+    adsConversao: 'AW-18370597514/1PVbCObj1N0cEIql5LdE',  // rótulo da conversão whatsapp_click
     metaPixel: ''                          // 123456789012345   — Meta Pixel
   };
 
