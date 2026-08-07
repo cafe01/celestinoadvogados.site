@@ -136,13 +136,40 @@ ul{margin:0;padding:0}
 /* --------------------------------------------------------------------------
    5. Hero
    -------------------------------------------------------------------------- */
+/* A fotografia é o fundo do hero, e o marrom da marca vem por cima como véu:
+   a página ganha realidade — sala de embarque ao entardecer, a cena de quem
+   espera um voo que não sai — sem que o texto perca contraste. O véu é mais
+   denso à esquerda, onde o título cai, e abre à direita, onde a foto respira. */
 .hero{
   position:relative;isolation:isolate;overflow:hidden;
-  background:linear-gradient(165deg,var(--brand-900) 0%,var(--brand-700) 55%,var(--brand-500) 100%);
+  background:
+    linear-gradient(100deg,
+      rgba(30,19,11,.94) 0%,
+      rgba(42,27,17,.88) 34%,
+      rgba(58,37,23,.72) 62%,
+      rgba(78,52,31,.55) 100%),
+    #2a1b11 url("../img/hero-aeroporto.jpg") center 26% / cover no-repeat;
   color:#f2e9e1;padding-block:var(--sp-8) var(--sp-9);
 }
+@media (min-width:60em){
+  /* O hero cresce para a aeronave caber inteira abaixo do cartão: o conteúdo
+     sobe para o topo e o espaço que sobra embaixo é da fotografia. */
+  .hero{min-height:min(82vh,48rem);display:flex;align-items:flex-start;padding-block:var(--sp-7) var(--sp-8)}
+  .hero .wrap{width:100%}
+}
+@media (max-width:60em){
+  /* No telefone o texto ocupa a largura toda: o véu fecha por igual. */
+  .hero{
+    background:
+      linear-gradient(180deg,
+        rgba(30,19,11,.88) 0%,
+        rgba(38,24,15,.74) 42%,
+        rgba(48,31,19,.62) 100%),
+      #2a1b11 url("../img/hero-aeroporto-vertical.jpg") center 88% / cover no-repeat;
+  }
+}
 .hero::before{ /* malha de rotas aéreas, discreta */
-  content:"";position:absolute;inset:0;z-index:-1;opacity:.5;
+  content:"";position:absolute;inset:0;z-index:-1;opacity:.35;
   background-image:radial-gradient(rgba(255,255,255,.13) 1px,transparent 1px);
   background-size:26px 26px;
   mask-image:radial-gradient(120% 90% at 78% 12%,#000 0%,transparent 68%);
@@ -153,7 +180,7 @@ ul{margin:0;padding:0}
   background:radial-gradient(circle,rgba(193,154,117,.24) 0%,transparent 62%);pointer-events:none;
 }
 .hero .wrap{display:grid;gap:var(--sp-7);align-items:center}
-@media (min-width:60em){.hero .wrap{grid-template-columns:1.08fr .92fr;gap:var(--sp-8)}}
+@media (min-width:60em){.hero .wrap{grid-template-columns:1.08fr .92fr;gap:var(--sp-8);align-items:start}}
 .hero h1{color:var(--white);text-wrap:balance}
 .hero h1 em{font-family:var(--font-serif);font-style:italic;font-weight:500;color:var(--accent-500)}
 .hero__lede{font-size:var(--step-1);color:#d5c6b8;max-width:34ch}
@@ -164,15 +191,18 @@ ul{margin:0;padding:0}
 .hero__note svg{width:1rem;height:1rem;flex:none;color:var(--green-500)}
 
 /* Cartão de situações dentro do hero — atalho de autoidentificação */
+/* Sobre a fotografia o cartão precisa de corpo próprio: translucidez que
+   funcionava contra cor chapada vira lavagem contra imagem. */
 .hero__card{
-  background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.13);
-  border-radius:var(--radius-l);padding:var(--sp-5);backdrop-filter:blur(6px);
+  background:rgba(28,18,10,.62);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radius-l);padding:var(--sp-5);backdrop-filter:blur(10px) saturate(120%);
+  box-shadow:0 1.4rem 3.2rem rgba(12,7,4,.34);
 }
 .hero__card h2{font-size:var(--step-0);letter-spacing:0;color:#d5c6b8;font-weight:600;margin-bottom:var(--sp-4)}
 .hero__picks{list-style:none;display:grid;gap:.55rem}
 .pick{
   display:flex;align-items:center;gap:.85rem;width:100%;text-align:left;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#f4ece4;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#f4ece4;
   border-radius:var(--radius-m);padding:.85rem 1rem;font:inherit;font-size:var(--step-0);
   cursor:pointer;transition:background .16s var(--ease),transform .16s var(--ease),border-color .16s var(--ease);
 }

@@ -21,6 +21,11 @@
 
     /* Identificadores de medição. Vazio = tag não sobe, e a página segue
        funcionando e empilhando eventos no dataLayer. Preencher aqui, e só aqui. */
+    /* O instrumento: para onde vai o beacon que casa o código curto da etiqueta
+       com o gclid. Vazio = beacon não sai, e a etiqueta continua saindo com o
+       código — o lead chega, apenas órfão de atribuição. */
+    beacon:   '',                          // https://.../b
+
     ga4:      '',                          // G-XXXXXXXXXX      — GA4
     googleAds: '',                         // AW-XXXXXXXXX      — Google Ads
     adsConversao: '',                      // AW-XXXXXXXXX/abcD — rótulo da conversão whatsapp_click
@@ -74,11 +79,77 @@
   }
   var ATTR = readAttribution();
 
+  /* O código curto que viaja na mensagem no lugar do gclid.
+     Nasce aqui, no cliente: resolver por chamada bloqueante seguraria a ida ao
+     WhatsApp esperando rede, e ninguém segura um cliente por isso. O alfabeto
+     exclui o que se confunde ao ler em voz alta (0/O, 1/I/L) e é o mesmo que o
+     instrumento aceita como forma canônica.
+     Um código por VISITA, e não por clique: os href já saem montados no load, e
+     quem volta e clica de novo é a mesma conversa. */
+  var CODE_ALPHABET = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
+  var CODE_LENGTH = 5;
+
+  function newCode() {
+    var out = '';
+    var i;
+    if (window.crypto && window.crypto.getRandomValues) {
+      var bytes = new Uint8Array(CODE_LENGTH);
+      window.crypto.getRandomValues(bytes);
+      for (i = 0; i < CODE_LENGTH; i++) out += CODE_ALPHABET[bytes[i] % CODE_ALPHABET.length];
+      return out;
+    }
+    for (i = 0; i < CODE_LENGTH; i++) {
+      out += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+    }
+    return out;
+  }
+
+  function sessionCode() {
+    var code;
+    try { code = sessionStorage.getItem('ref'); } catch (e) { code = null; }
+    if (!code) {
+      code = newCode();
+      try { sessionStorage.setItem('ref', code); } catch (e) {}
+    }
+    return code;
+  }
+  var CODE = sessionCode();
+
+  /* O beacon: código ↔ gclid, sem bloquear o clique.
+     Corpo em text/plain de propósito — application/json não é um tipo simples,
+     exigiria preflight, e sendBeacon não faz OPTIONS: o beacon falharia calado.
+     O servidor decodifica JSON de um corpo declarado texto. */
+  function sendBeacon() {
+    if (!CONFIG.beacon) return;
+    try { if (sessionStorage.getItem('ref_sent')) return; } catch (e) {}
+    var body = JSON.stringify({
+      c: CODE,
+      gclid: ATTR.gclid, fbclid: ATTR.fbclid,
+      utm_source: ATTR.utm_source, utm_medium: ATTR.utm_medium,
+      utm_campaign: ATTR.utm_campaign, utm_content: ATTR.utm_content, utm_term: ATTR.utm_term
+    });
+    var enviado = false;
+    try {
+      if (navigator.sendBeacon) {
+        enviado = navigator.sendBeacon(CONFIG.beacon, new Blob([body], { type: 'text/plain' }));
+      }
+      if (!enviado) {
+        fetch(CONFIG.beacon, { method: 'POST', body: body, keepalive: true,
+                               headers: { 'Content-Type': 'text/plain' } }).catch(function () {});
+      }
+      sessionStorage.setItem('ref_sent', '1');
+    } catch (e) { /* beacon perdido é código órfão e lead que chega mesmo assim */ }
+  }
+
+  /* A etiqueta sai SEMPRE, inclusive em tráfego direto: é ela que casa a
+     conversa com o clique. Mas o cliente a lê antes de enviar — então sem
+     origem legível vai a forma mínima, que se lê como número de protocolo e
+     não como etiqueta de anunciante. */
   function attributionTag() {
     var src = ATTR.utm_source || (ATTR.gclid ? 'google' : (ATTR.fbclid ? 'meta' : ''));
-    var camp = ATTR.utm_campaign || '';
-    if (!src && !camp) return '';
-    return '\n\n[ref: ' + [src, camp, ATTR.utm_content].filter(Boolean).join(' / ') + ']';
+    var partes = [src, ATTR.utm_campaign, ATTR.utm_content].filter(Boolean);
+    if (!partes.length) return '\n\n[ref: ' + CODE + ']';
+    return '\n\n[ref: ' + partes.join(' / ') + ' · ' + CODE + ']';
   }
 
   function whatsappURL(message) {
@@ -90,6 +161,7 @@
      3. Todos os caminhos para o WhatsApp
      ---------------------------------------------------------------------- */
   function goToWhatsApp(message, position, context) {
+    sendBeacon();
     track('whatsapp_click', {
       cta_position: position || 'desconhecida',
       situacao: context || 'nao_informada',
