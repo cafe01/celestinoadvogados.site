@@ -103,9 +103,9 @@ img{max-width:100%;height:auto}
    restou, 960px), a faixa marrom refeita em texto e o cartão do logotipo por
    cima à direita, na proporção original. Largura limitada de propósito: a
    imagem não aguenta ser esticada de ponta a ponta. */
-.vista{margin:3rem 0 0}
-.vista__foto{display:block;width:100%;border-radius:.6rem .6rem 0 0}
-.vista__faixa{position:relative;background:#7d583b;color:var(--white);padding:1.6rem min(46%,26rem) 1.6rem 2.2rem;border-radius:0 0 .6rem .6rem}
+.vista{margin:3rem 0 0;width:100vw;margin-left:calc(50% - 50vw)}
+.vista__foto{display:block;width:100%;object-fit:cover}
+.vista__faixa{position:relative;background:#7d583b;color:var(--white);padding:1.6rem min(46%,26rem) 1.6rem max(2.2rem,calc((100% - var(--wrap))/2))}
 .vista__dados p{margin:.3rem 0;font-size:clamp(.74rem,1.15vw,.9rem);line-height:1.5}
 .vista__dados span{white-space:nowrap}
 .vista__dados a{color:var(--white);text-decoration:none}
@@ -113,7 +113,7 @@ img{max-width:100%;height:auto}
 .vista__site{text-transform:uppercase;letter-spacing:.1em;font-size:clamp(.66rem,1.3vw,.84rem)}
 .vista__fones{font-variant-numeric:tabular-nums}
 .vista__cartao{position:absolute;right:4%;top:-1.8rem;width:min(38%,21rem);height:auto}
-.vista__legenda{margin-top:.7rem;font-size:.85rem;color:var(--ink-faint)}
+.vista__legenda{margin:.7rem auto 0;width:min(100% - 2.5rem,var(--wrap));font-size:.85rem;color:var(--ink-faint)}
 @media (max-width:40em){
   .vista__faixa{padding:1.2rem 1.2rem 5.5rem}
   .vista__cartao{right:6%;top:auto;bottom:1rem;width:min(52%,14rem)}
