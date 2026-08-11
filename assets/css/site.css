@@ -98,6 +98,26 @@ img{max-width:100%;height:auto}
 .chamada__botao{display:inline-block;padding:.7rem 1.3rem;border-radius:.4rem;background:var(--brand-700);color:var(--white);text-decoration:none;font-weight:500}
 .chamada__botao:hover{background:var(--brand-800);color:var(--white)}
 
+/* ---- a vista da janela ----
+   Remontagem da última peça do hotsite antigo: a fotografia (única cópia que
+   restou, 960px), a faixa marrom refeita em texto e o cartão do logotipo por
+   cima à direita, na proporção original. Largura limitada de propósito: a
+   imagem não aguenta ser esticada de ponta a ponta. */
+.vista{margin:3rem 0 0;max-width:44rem}
+.vista__foto{display:block;width:100%;border-radius:.6rem .6rem 0 0}
+.vista__faixa{position:relative;background:var(--brand-700);color:var(--brand-100);padding:5.2% 46% 5.2% 7%;border-radius:0 0 .6rem .6rem}
+.vista__dados p{margin:.3rem 0;font-size:clamp(.72rem,1.5vw,.95rem);line-height:1.5}
+.vista__dados a{color:var(--white);text-decoration:none}
+.vista__dados a:hover{text-decoration:underline;color:var(--white)}
+.vista__site{text-transform:uppercase;letter-spacing:.1em;font-size:clamp(.66rem,1.3vw,.84rem)}
+.vista__fones{font-variant-numeric:tabular-nums}
+.vista__cartao{position:absolute;right:5%;top:-6.2%;width:40.1%;height:auto}
+.vista__legenda{margin-top:.7rem;font-size:.85rem;color:var(--ink-faint)}
+@media (max-width:32em){
+  .vista__faixa{padding:6% 6% 27% 6%}
+  .vista__cartao{right:6%;top:auto;bottom:5%;width:52%}
+}
+
 /* ---- rodapé ---- */
 .rodape{margin-top:2rem;border-top:1px solid var(--line);background:var(--brand-900);color:var(--brand-100);padding:2.5rem 0 1.75rem}
 .rodape a{color:var(--brand-100)}
