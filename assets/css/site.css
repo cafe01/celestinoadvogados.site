@@ -105,8 +105,9 @@ img{max-width:100%;height:auto}
    imagem não aguenta ser esticada de ponta a ponta. */
 .vista{margin:3rem 0 0;max-width:44rem}
 .vista__foto{display:block;width:100%;border-radius:.6rem .6rem 0 0}
-.vista__faixa{position:relative;background:var(--brand-700);color:var(--brand-100);padding:5.2% 46% 5.2% 7%;border-radius:0 0 .6rem .6rem}
-.vista__dados p{margin:.3rem 0;font-size:clamp(.72rem,1.5vw,.95rem);line-height:1.5}
+.vista__faixa{position:relative;background:#7d583b;color:var(--white);padding:5.2% 50% 5.2% 7%;border-radius:0 0 .6rem .6rem}
+.vista__dados p{margin:.3rem 0;font-size:clamp(.68rem,1.15vw,.86rem);line-height:1.5}
+.vista__dados span{white-space:nowrap}
 .vista__dados a{color:var(--white);text-decoration:none}
 .vista__dados a:hover{text-decoration:underline;color:var(--white)}
 .vista__site{text-transform:uppercase;letter-spacing:.1em;font-size:clamp(.66rem,1.3vw,.84rem)}
