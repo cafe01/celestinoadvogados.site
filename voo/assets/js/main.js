@@ -257,9 +257,12 @@
   }
 
   /* ----------------------------------------------------------------------
-     9. Consentimento (LGPD)
-     Os scripts de medição só sobem depois do aceite. Enquanto não há aceite,
-     a página funciona inteira — só não mede.
+     9. Consentimento (LGPD) — Consent Mode
+     A medição sobe SEMPRE, declarando "negado" como padrão antes de a
+     biblioteca do Google carregar. Negado não é silêncio: o Google recebe
+     um ping sem cookie e sem identificador, que conta a visita e alimenta a
+     modelagem de conversão. O aceite não carrega nada de novo — apenas
+     atualiza o estado para "concedido".
      ---------------------------------------------------------------------- */
   var consent = $('.consent');
   var STORE_KEY = 'consent-analytics';
@@ -270,16 +273,32 @@
     document.head.appendChild(s);
   }
 
-  function loadTrackers() {
+  // gtag tem de existir antes de tudo: o consentimento padrão é empurrado
+  // ANTES de o script subir, e essa ordem é o mecanismo inteiro.
+  window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+
+  function estadoConsentimento(concedido) {
+    var v = concedido ? 'granted' : 'denied';
+    return {
+      ad_storage: v,
+      ad_user_data: v,
+      ad_personalization: v,
+      analytics_storage: v
+    };
+  }
+
+  function sobeMedicao() {
     // gtag serve GA4 e Google Ads pela mesma biblioteca
     var gtagId = CONFIG.ga4 || CONFIG.googleAds;
-    if (gtagId) {
-      carregaScript('https://www.googletagmanager.com/gtag/js?id=' + gtagId);
-      window.gtag = function () { window.dataLayer.push(arguments); };
-      window.gtag('js', new Date());
-      if (CONFIG.ga4)       window.gtag('config', CONFIG.ga4);
-      if (CONFIG.googleAds) window.gtag('config', CONFIG.googleAds);
-    }
+    if (!gtagId) return;
+    carregaScript('https://www.googletagmanager.com/gtag/js?id=' + gtagId);
+    window.gtag('js', new Date());
+    if (CONFIG.ga4)       window.gtag('config', CONFIG.ga4);
+    if (CONFIG.googleAds) window.gtag('config', CONFIG.googleAds);
+  }
+
+  function concedeConsentimento() {
+    window.gtag('consent', 'update', estadoConsentimento(true));
 
     if (CONFIG.metaPixel) {
       /* eslint-disable */
@@ -299,14 +318,25 @@
   var saved = null;
   try { saved = localStorage.getItem(STORE_KEY); } catch (e) {}
 
+  // Padrão negado, declarado antes da medição subir. wait_for_update segura
+  // as primeiras chamadas por meio segundo, para quem já aceitou antes não
+  // ter a visita contada como recusa.
+  window.gtag('consent', 'default', Object.assign(estadoConsentimento(false), {
+    wait_for_update: 500
+  }));
+  window.gtag('set', 'url_passthrough', true);
+  window.gtag('set', 'ads_data_redaction', true);
+
+  sobeMedicao();
+
   if (saved === 'aceito') {
-    loadTrackers();
+    concedeConsentimento();
   } else if (saved !== 'recusado' && consent) {
     setTimeout(function () { consent.classList.add('is-visible'); }, 1200);
     $('[data-consent="aceitar"]').addEventListener('click', function () {
       try { localStorage.setItem(STORE_KEY, 'aceito'); } catch (e) {}
       consent.classList.remove('is-visible');
-      loadTrackers();
+      concedeConsentimento();
     });
     $('[data-consent="recusar"]').addEventListener('click', function () {
       try { localStorage.setItem(STORE_KEY, 'recusado'); } catch (e) {}
