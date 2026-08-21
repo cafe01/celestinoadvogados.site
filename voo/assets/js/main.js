@@ -236,11 +236,30 @@
   /* ----------------------------------------------------------------------
      7. FAQ — cada abertura é uma objeção declarada
      ---------------------------------------------------------------------- */
+  var aberturaAutomatica = false;
+
   $$('.faq details').forEach(function (d) {
     d.addEventListener('toggle', function () {
-      if (d.open) track('faq_aberta', { pergunta: d.getAttribute('data-q') || '' });
+      // abertura vinda do endereco nao e objecao declarada: nao se mede como tal
+      if (d.open && !aberturaAutomatica) track('faq_aberta', { pergunta: d.getAttribute('data-q') || '' });
     });
   });
+
+  /* Um sitelink pode cair direto numa pergunta. Sem isto o cliente chega a um
+     acordeao fechado e le a pergunta em vez da resposta. */
+  function abrirPerguntaDoEndereco() {
+    var id = (window.location.hash || '').slice(1);
+    if (!id) return;
+    var alvo = document.getElementById(id);
+    if (!alvo || alvo.tagName.toLowerCase() !== 'details' || alvo.open) return;
+    aberturaAutomatica = true;
+    alvo.open = true;
+    aberturaAutomatica = false;
+    track('faq_pelo_endereco', { pergunta: alvo.getAttribute('data-q') || id });
+    alvo.scrollIntoView({ block: 'center' });
+  }
+  abrirPerguntaDoEndereco();
+  window.addEventListener('hashchange', abrirPerguntaDoEndereco);
 
   /* ----------------------------------------------------------------------
      8. Revelação ao rolar
