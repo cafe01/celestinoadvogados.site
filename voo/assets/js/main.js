@@ -247,16 +247,42 @@
 
   /* Um sitelink pode cair direto numa pergunta. Sem isto o cliente chega a um
      acordeao fechado e le a pergunta em vez da resposta. */
+  /* Levar ate um alvo respeitando o cabecalho fixo, que cobriria a pergunta. */
+  function levarAte(alvo) {
+    var topo = $('.site-header');
+    var folga = (topo ? topo.offsetHeight : 0) + 16;
+    var y = alvo.getBoundingClientRect().top + window.pageYOffset - folga;
+    window.scrollTo(0, Math.max(0, y));
+  }
+
   function abrirPerguntaDoEndereco() {
     var id = (window.location.hash || '').slice(1);
     if (!id) return;
     var alvo = document.getElementById(id);
-    if (!alvo || alvo.tagName.toLowerCase() !== 'details' || alvo.open) return;
-    aberturaAutomatica = true;
-    alvo.open = true;
-    aberturaAutomatica = false;
-    track('faq_pelo_endereco', { pergunta: alvo.getAttribute('data-q') || id });
-    alvo.scrollIntoView({ block: 'center' });
+    if (!alvo || alvo.tagName.toLowerCase() !== 'details') return;
+
+    if (!alvo.open) {
+      aberturaAutomatica = true;
+      alvo.open = true;
+      aberturaAutomatica = false;
+      track('faq_pelo_endereco', { pergunta: alvo.getAttribute('data-q') || id });
+    }
+
+    /* A pagina ainda se mexe depois de o endereco ser lido: as revelacoes ao
+       rolar e as imagens mudam a altura do que esta ACIMA do alvo, e um scroll
+       feito cedo erra por essa diferenca. Daí corrigir algumas vezes enquanto
+       assenta — e parar no instante em que a pessoa rolar, porque a partir dai
+       a pagina e dela. */
+    var pessoaRolou = false;
+    function cedeControle() { pessoaRolou = true; }
+    window.addEventListener('wheel', cedeControle, { passive: true });
+    window.addEventListener('touchmove', cedeControle, { passive: true });
+    window.addEventListener('keydown', cedeControle);
+
+    function corrigir() { if (!pessoaRolou) levarAte(alvo); }
+    corrigir();
+    [120, 350, 700, 1200].forEach(function (ms) { window.setTimeout(corrigir, ms); });
+    window.addEventListener('load', corrigir);
   }
   abrirPerguntaDoEndereco();
   window.addEventListener('hashchange', abrirPerguntaDoEndereco);
