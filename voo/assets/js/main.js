@@ -11,7 +11,10 @@
      ---------------------------------------------------------------------- */
   var CONFIG = {
     whatsapp: '5527981385109',            // Mariela Celestino — WhatsApp de atendimento
-    baseMessage: 'Olá! Tive um problema com meu voo e gostaria de entender meus direitos.',
+    // Uma página dedicada a uma única situação declara a sua própria mensagem
+    // em <html data-mensagem-padrao="...">. Sem o atributo, nada muda.
+    baseMessage: document.documentElement.getAttribute('data-mensagem-padrao') ||
+                 'Olá! Tive um problema com meu voo e gostaria de entender meus direitos.',
     contextMessages: {                     // mensagem por situação escolhida no hero
       atraso:     'Olá! Meu voo atrasou e gostaria de entender meus direitos.',
       cancelado:  'Olá! Meu voo foi cancelado e gostaria de entender meus direitos.',
